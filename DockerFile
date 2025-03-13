@@ -4,14 +4,18 @@ FROM openjdk:17-jdk-slim
 # Criar diretório da aplicação
 WORKDIR /app
 
-# Copiar o projeto inteiro
-COPY . .
+# Instalar Maven
+RUN apt-get update && apt-get install -y maven
 
-# Instalar Maven e construir o projeto
-RUN apt-get update && apt-get install -y maven && mvn clean package -DskipTests
+# Copiar os arquivos necessários primeiro para otimizar o cache
+COPY pom.xml .
+COPY src ./src
+
+# Construir o projeto com Maven
+RUN mvn clean package -DskipTests
 
 # Copiar o JAR gerado para rodar no container
-COPY target/api-0.0.1-SNAPSHOT.jar app.jar
+RUN cp target/*.jar app.jar
 
 # Expor porta 8080
 EXPOSE 8080
