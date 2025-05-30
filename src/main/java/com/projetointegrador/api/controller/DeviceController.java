@@ -37,7 +37,7 @@ public class DeviceController {
 
     @PostMapping
     public ResponseEntity<Device> createDevice(@RequestBody Device device) {
-    
+
         if (device.getUser() != null && device.getUser().getId() != null) {
             User user = userRepository.findById(device.getUser().getId()).orElse(null);
             device.setUser(user);
@@ -55,6 +55,8 @@ public class DeviceController {
                 .map(existingDevice -> {
                     existingDevice.setDeviceName(updatedDevice.getDeviceName());
                     existingDevice.setState(updatedDevice.getState());
+                    existingDevice.setStateExaustor(updatedDevice.getStateExaustor());
+                    existingDevice.setStateVentilador(updatedDevice.getStateVentilador());
 
                     if (updatedDevice.getUser() != null && updatedDevice.getUser().getId() != null) {
                         User user = userRepository.findById(updatedDevice.getUser().getId()).orElse(null);
