@@ -21,6 +21,12 @@ public class Device {
 
     private Boolean state;
 
+    @Column(name = "state_exaustor")
+    private Boolean stateExaustor;
+
+    @Column(name = "state_ventilador")
+    private Boolean stateVentilador;
+
     private LocalDateTime lastUpdated;
 
     @ManyToOne
